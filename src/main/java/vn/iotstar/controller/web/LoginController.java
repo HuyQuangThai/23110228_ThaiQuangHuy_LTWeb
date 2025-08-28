@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.iotstar.model.User;
 import vn.iotstar.service.UserService;
-import vn.iotstar.servive.impl.UserServiceImpl;
+import vn.iotstar.service.impl.UserServiceImpl;
 
 import java.io.IOException;
 
@@ -39,6 +39,19 @@ public class LoginController extends HttpServlet {
     	response.sendRedirect(request.getContextPath()+ "/waiting");
     	return;
     	}
+    	// Check cookie
+    	Cookie[] cookies = request.getCookies();
+    	if (cookies != null) {
+    	for (Cookie cookie : cookies) {
+    	if (cookie.getName().equals("username")) {
+    	session = request.getSession(true);
+    	session.setAttribute("username", cookie.getValue());
+    	response.sendRedirect(request.getContextPath()+ "/waiting");
+    	return;
+    											}
+    									}
+    						}
+    	request.getRequestDispatcher("views/login.jsp").forward(request, response);
     }
 
 	/**
@@ -73,7 +86,7 @@ public class LoginController extends HttpServlet {
 			  saveRememberMe(response, username);
 			  }
 			  response.sendRedirect(request.getContextPath()+"/waiting");
-			  }else{
+			  } else{
 			  alertMsg =
 			 "Tài khoản hoặc mật khẩu không đúng";
 			  request.setAttribute("alert", alertMsg);
