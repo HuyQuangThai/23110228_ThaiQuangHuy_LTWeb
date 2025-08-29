@@ -52,4 +52,9 @@ public class UserServiceImpl implements UserService {
 	public boolean checkExistPhone(String phone) {
 		return userDao.checkExistPhone(phone);
 	}
+
+	@Override
+	public void reset(String username, String password) {
+		userDao.reset(username, password);
+	}
 }

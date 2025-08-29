@@ -40,5 +40,6 @@
 			</button>
 		</section>
 	</form>
+	<p><a href="forget">Quên mật khẩu?</a></p>
 </body>
 </html>

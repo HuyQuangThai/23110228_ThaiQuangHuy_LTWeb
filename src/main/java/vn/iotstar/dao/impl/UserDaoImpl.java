@@ -14,12 +14,14 @@ public class UserDaoImpl implements UserDao {
 	public ResultSet rs = null;
 
 	@Override
-	public User get(String username) {
-		String sql = "SELECT * FROM [User] WHERE username = ?";
+	public User get(String other) {
+		String sql = "SELECT * FROM [User] WHERE username = ? OR email = ? OR phone = ?";
 		try {
 			conn = new DBConnection().getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, username);
+			ps.setString(1, other);
+			ps.setString(2,other);
+			ps.setString(3,other);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				User user = new User();
@@ -116,5 +118,20 @@ public class UserDaoImpl implements UserDao {
 		} catch (Exception e) {
 		}
 		return duplicate;
+	}
+
+	@Override
+	public void reset(String username, String password) {
+		try {
+			String query = "UPDATE [User] SET password = ? WHERE username = ?";
+			conn = new DBConnection().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, password);
+			ps.setString(2, username);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

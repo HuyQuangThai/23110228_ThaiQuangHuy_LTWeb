@@ -42,6 +42,8 @@ public class WaitingController extends HttpServlet {
 				} else if (u.getRoleid() == 2) {
 					response.sendRedirect(request.getContextPath() + "/manager/home");
 				} else {
+					String username = request.getAttribute("username").toString();
+					session.setAttribute("username", username);
 					response.sendRedirect(request.getContextPath() + "/home");
 				}
 			} else {
